@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-</head>
-<body>
-    <h1> Login </h1>
+<?php 
+if (isset($_POST["uname"]) && !empty($_POST["uname"])){
+    echo "DOE LOGIN";
+    // opzoeken paswoord in databank adhv username
+    // password_verify(pwd, hash)
+}else { ?>
+<h1> Login </h1>
+<form action="login.php" method="post">
+    <input type="text" placeholder="Username" name="uname" required>
     <input type="password" placeholder="Enter Password" name="psw" required>
+    <button type="submit">Log in.</button>
+</form>
 
-</body>
-</html>
+<?php } ?>
