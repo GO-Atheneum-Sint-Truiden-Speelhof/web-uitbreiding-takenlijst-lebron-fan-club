@@ -1,10 +1,9 @@
 <?php
-
-function connectDB()
+function connectToDB()
 {
     $servername = "localhost";
-    $username = "Test";
-    $password = "123";  
+    $username = "root";
+    $password = "";  
     $dbname = "takenlijst";
 
     $conn  = new mysqli($servername, $username, $password, $dbname);
@@ -15,8 +14,55 @@ function connectDB()
        return $conn;
 }
 
+function SaveToDb(){
+
+    $conn = connectToDB();    
+    $sql = "INSERT INTO info(NaamMaker, NaamTaak, Beschrijving, Status, Deadline)
+    VALUES ('".$_POST["naammaker"]."','".$_POST["naamtaak"]."','".$_POST["beschrijving"]."','".$_POST["status"]."','".$_POST["deadline"]."');";
+
+    if($conn->query($sql) === true){
+        echo "New record created!";
+        header("refresh:3;URL=begin.php?page=start");
+    }
+    else{
+        echo "ERROR: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
+function getTaak($id){
+    $conn= connectToDB();
+    $sql = "SELECT * FROM info WHERE ID=".$id;
+   // echo $sql;
+    $result = $conn->query($sql);
+    //print_r($result);
+    if($result->num_rows > 0){
+        return $result->fetch_assoc();
+    }
+    
+}
+function geefInsch(){
+    $conn = connectToDB();
+    $sql = "SELECT * FROM info";
+
+
+
+    $result = $conn->query($sql);
+    while($row = $result->fetch_row()) {
+        echo '<tr>';
+        for($i=0;$i<count($row);$i++){
+            echo "<td>";
+            echo "$row[$i]";    
+            echo"</td>";
+        }  
+        echo "<td><a href='begin.php?page=start&actie=edit&id=".$row[0]."'>EDIT</a></td>";
+        echo"</tr>";
+    }
+}
+
+
 function login(){
-    $conn = connectDB();
+    $conn = connecToDB();
     $User = $_POST['username'];
     $psw = $_POST['password'];
 
@@ -30,5 +76,7 @@ function login(){
     }
     $conn->close();
 }
+//$pwd = password_hash($_POST["Password"],PASSWORD_DEFAULT);
+// password_verify(pwd, hash)  (pwd = user input, hash = db value)
 
 ?>
