@@ -9,7 +9,8 @@
                 $result = getTaak($_GET["id"]);
             
             ?>
-            <form method="post" action="includes/edit.php">
+
+            <form method="post" action="begin.php?page=edit">
                 <input type="hidden" name="id" value="<?php echo $result["ID"];?>">
             <table class="table table-sm table-bordered table-striped">
         <thead>
@@ -40,7 +41,13 @@
 <?php
             }
         }
-    ?>
+        
+        if(isset($_GET["actie"]) && !strcmp($_GET["actie"],"delete"))
+        {
+            deleteRow($_GET["id"]);
+        }
+            ?>
+
 </div>
 <div class="left">
 <div class="table-responsive-lg">

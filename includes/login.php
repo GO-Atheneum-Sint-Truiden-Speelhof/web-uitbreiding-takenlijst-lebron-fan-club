@@ -1,8 +1,7 @@
 <?php 
+include("scripts/function.php");
 if (isset($_POST["uname"]) && !empty($_POST["uname"])){
-    echo "DOE LOGIN";
-    // opzoeken paswoord in databank adhv username
-    // password_verify(pwd, hash)
+    login();
 }else { ?>
 <h1> Login </h1>
 <form action="login.php" method="post">

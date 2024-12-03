@@ -56,22 +56,37 @@ function geefInsch(){
             echo"</td>";
         }  
         echo "<td><a href='begin.php?page=start&actie=edit&id=".$row[0]."'>EDIT</a></td>";
+        echo "<td><a href='begin.php?page=start&actie=delete&id=".$row[0]."'>Delete</a></td>";
         echo"</tr>";
+        
     }
+}
+
+function deleteRow($id){
+    $conn = connectToDB();
+
+    $sql = "DELETE FROM info WHERE id = $id";
+    if (mysqli_query($conn, $sql)) {
+    echo "Record deleted successfully";
+    } else {
+    echo "Error deleting record: " . mysqli_error($conn);
+    }
+
+    mysqli_close($conn);
 }
 
 
 function login(){
-    $conn = connecToDB();
-    $User = $_POST['username'];
-    $psw = $_POST['password'];
+    $conn = connectToDB();
+    $User = $_POST['uname'];
+    $psw = $_POST['psw'];
 
     $sql = "SELECT * FROM users WHERE username ='$User' AND password ='$psw'";
     $result = $conn->query($sql);
 
     if($result->num_rows>0){
         echo "<p> Login succesvol geluk! </p>";
-        header("refresh: 2 ; URL = begin.php?page=inschrijvingen");
+        header("refresh: 2 ; URL = begin.php?page=login");
 
     }
     $conn->close();
